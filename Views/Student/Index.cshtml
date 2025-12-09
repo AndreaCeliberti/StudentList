@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Elenco Studenti";
+}
+
+<h1>Elenco Studenti</h1>
+
+<div class="mb-3">
+    <input id="searchInput" class="form-control" placeholder="Cerca per nome, cognome o email" />
+</div>
+
+<div class="mb-3">
+    <button id="refreshBtn" class="btn btn-primary">Aggiorna lista</button>
+</div>
+
+
+<div id="listaStudentiContainer">
+    
+</div>
+
+@section Scripts {
+    <script>
+        async function caricaLista(search = "") {
+            const url = '@Url.Action("ListaParziale", "Studenti")' + (search ? ("?search=" + encodeURIComponent(search)) : "");
+            const resp = await fetch(url, { method: 'GET', headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+            if (resp.ok) {
+                const html = await resp.text();
+                document.getElementById("listaStudentiContainer").innerHTML = html;
+            } else {
+                console.error("Errore nel caricamento della lista");
+            }
+        }
+
+        document.getElementById("refreshBtn").addEventListener("click", () => {
+            const q = document.getElementById("searchInput").value;
+            caricaLista(q);
+        });
+
+        document.getElementById("searchInput").addEventListener("keyup", (e) => {
+           
+            clearTimeout(window._searchTimer);
+            window._searchTimer = setTimeout(() => {
+                caricaLista(e.target.value);
+            }, 300);
+        });
+
+        
+        document.addEventListener("DOMContentLoaded", () => caricaLista());
+    </script>
+}

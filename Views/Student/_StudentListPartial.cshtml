@@ -1,0 +1,35 @@
+﻿@using Student.Models
+@model IEnumerable<Student>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nome</th>
+            <th>Cognome</th>
+            <th>Data di nascita</th>
+            <th>Email</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var s in Model)
+        {
+            <tr>
+                <td>@s.Id</td>
+                <td>@s.Nome</td>
+                <td>@s.Cognome</td>
+                <td>@s.DataDiNascita.ToString("dd-MM-yyyy")</td>
+                <td>@s.Email</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@s.Id" class="btn btn-sm btn-outline-secondary">Dettagli</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">Nessuno studente trovato.</div>
+}
