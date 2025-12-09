@@ -20,7 +20,7 @@
 @section Scripts {
     <script>
         async function caricaLista(search = "") {
-            const url = '@Url.Action("ListaParziale", "Studenti")' + (search ? ("?search=" + encodeURIComponent(search)) : "");
+            const url = '@Url.Action("ListaParziale", "Student")' + (search ? ("?search=" + encodeURIComponent(search)) : "");
             const resp = await fetch(url, { method: 'GET', headers: { 'X-Requested-With': 'XMLHttpRequest' } });
             if (resp.ok) {
                 const html = await resp.text();
